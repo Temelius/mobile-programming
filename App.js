@@ -1,19 +1,30 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native'
+import { StyleSheet, Text, View, Button, TextInput, FlatList } from 'react-native'
 
 export default function App() {
 
   const [result, setResult] = useState(0)
   const [numberOne, setNumberOne] = useState(0)
   const [numberTwo, setNumberTwo] = useState(0)
+  const [history, setHistory] = useState([])
 
   const sum = () => {
-    setResult(parseInt(numberOne) + parseInt(numberTwo))
+    var num1 = parseInt(numberOne)
+    var num2 = parseInt(numberTwo)
+    var result = num1 + num2
+
+    setResult(result)
+    setHistory([...history, {key:num1 + ' + ' + num2 + ' = ' + result}])
   }
 
   const subtract = () => {
-    setResult(parseInt(numberOne) - parseInt(numberTwo))
+      var num1 = parseInt(numberOne)
+      var num2 = parseInt(numberTwo)
+      var result = num1 - num2
+
+      setResult(result)
+      setHistory([...history, {key:num1 + ' - ' + num2 + ' = ' + result}])
   }
 
   const Spacer = () => (
@@ -23,7 +34,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View>
-        <Text>Result: {result}</Text>
+        <Text style={{marginTop:300}}>Result: {result}</Text>
       </View>
       <View>
         <TextInput style={styles.inputField}
@@ -41,12 +52,19 @@ export default function App() {
           value={numberTwo.toString()}
         />
       </View>
-
-      <View style={styles.buttons}>
-        <Button title='+' onPress={sum} />
-        <Spacer />
-        <Button title='-' onPress={subtract} />
+      <View>
+        <View style={styles.buttons}>
+          <Button title='+' onPress={sum} />
+          <Spacer />
+          <Button title='-' onPress={subtract} />
+        </View>
+        <Text>History</Text>
+        <FlatList
+          data={history}
+          renderItem={({item}) => <Text>{item.key}</Text>}
+        />
       </View>
+
     </View>
   );
 }
