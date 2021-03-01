@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mobile-programming",
-    "slug": "mobile-programming",
+    "name": "8_find_address",
+    "slug": "8_find_address",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "8th task of Haaga-Helias mobile programming course",
+    "githubUrl": "https://github.com/Temelius/mobile-programming/tree/8_find_address"
   }
 }
