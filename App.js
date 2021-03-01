@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Alert, TextInput, Button } from 'react-native';
 import MapView, { Marker } from 'react-native-maps'
+import * as Location from 'expo-location'
 
 export default function App() {
   const [location, setLocation] = useState('')
@@ -16,6 +17,29 @@ export default function App() {
     latitude: 60.201373,
     longitude: 24.934041
   })
+
+  useEffect(() => {
+    getCurrentLocation()
+  }, [])
+
+
+  const getCurrentLocation = async() => {
+    let { status } = await Location.requestPermissionsAsync()
+
+    if (status !== "granted") {
+      Alert.alert('No permission to access phone location')
+    } else {
+      let currentLocation = await Location.getCurrentPositionAsync({})
+      const result = {
+        ...region,
+        latitude: currentLocation.coords.latitude,
+        longitude: currentLocation.coords.longitude
+      }
+      setRegion(result)
+      setMarker(result)
+    }
+
+  }
 
   const searchLocation = () => {
     const key = 'svxdrSVCU87mW45d9yrO2epeA7gV7xBP'

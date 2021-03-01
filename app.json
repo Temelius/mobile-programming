@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "8_find_address",
-    "slug": "8_find_address",
+    "name": "9_find_address_with_location",
+    "slug": "9_find_address_with_location",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,7 +28,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "8th task of Haaga-Helias mobile programming course",
-    "githubUrl": "https://github.com/Temelius/mobile-programming/tree/8_find_address"
+    "description": "9th task of Haaga-Helias mobile programming course",
+    "githubUrl": "https://github.com/Temelius/mobile-programming/tree/9_find_address_location"
   }
 }
