@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mobile-programming",
-    "slug": "mobile-programming",
+    "name": "10_shopping_list_db",
+    "slug": "10_shopping_list_db",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "10th task of haaga-helias mobile programming course.",
+    "githubUrl": "https://github.com/Temelius/mobile-programming/tree/10_shopping_list_db"
   }
 }
