@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mobile-programming",
-    "slug": "mobile-programming",
+    "name": "12_text_to_speech",
+    "slug": "12_text_to_speech",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "12th task of haaga-helia's mobile programming course.",
+    "githubUrl": "https://github.com/Temelius/mobile-programming/tree/12_text_to_speech"
   }
 }
