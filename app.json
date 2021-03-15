@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mobile-programming",
-    "slug": "mobile-programming",
+    "name": "11_contacts",
+    "slug": "11_contacts",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "11th task of haaga-helia's mobile programming course",
+    "githubUrl": "https://github.com/Temelius/mobile-programming/tree/11_contacts"
   }
 }
