@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, TextInput, Button, FlatList } from 'react-native'
+import { StyleSheet, Text, View, TextInput, FlatList } from 'react-native'
 import * as SQLite from 'expo-sqlite'
+import { Button, Input, Header, Icon, ListItem } from 'react-native-elements'
 
 const db = SQLite.openDatabase('list.db')
 
@@ -39,44 +40,73 @@ export default function App() {
     }, null, updateList)
   }
 
-  const listSeparator = () => {
+  const renderItem = ({ item }) => {
     return (
-      <View
-        style={{
-          height: 5,
-          width: "80%",
-          backgroundColor: "#fff",
-          marginLeft: "10%"
-        }}
-        />
-    );
-  };
+      <ListItem
+        bottomDivider
+        containerStyle={{
+          width: 350
+        }}>
+
+        <ListItem.Content
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center'
+          }}>
+          <ListItem.Content>
+            <ListItem.Title>{item.product}</ListItem.Title>
+            <ListItem.Subtitle>{item.amount}</ListItem.Subtitle>
+          </ListItem.Content>
+
+          <ListItem.Content right>
+            <ListItem.Chevron
+              name='delete'
+              type='material'
+              color='#FF0000'
+              size={25}
+              onPress={() => deleteItem(item.id)}
+            />
+          </ListItem.Content>
+
+        </ListItem.Content>
+
+      </ListItem>
+    )
+  }
 
   return (
       <View style={styles.container}>
-        <TextInput placeholder='Product'
-          style={{marginTop: 30, fontSize: 18, width: 200, borderColor: 'gray', borderWidth: 1}}
-          onChangeText={(product) => setProduct(product)}
-          value={product}/>
-        <TextInput placeholder='Amount'
-          keyboardType="numeric"
-          style={{ marginTop: 5, marginBottom: 5,  fontSize:18, width: 200, borderColor: 'gray', borderWidth: 1}}
-          onChangeText={(amount) => setAmount(amount)}
-          value={amount}/>
-        <Button onPress={saveItem} title="Save" />
-        <Text style={{marginTop: 30, fontSize: 20}}>ShoppingList</Text>
-        <FlatList
-          style={{marginLeft : "5%"}}
-          keyExtractor={item => item.id.toString()}
-          renderItem={({item}) =>
-            <View style={styles.listcontainer}>
-              <Text style={{fontSize: 18}}>{item.product}, {item.amount}</Text>
-              <Text style={{fontSize: 18, color: '#0000ff'}} onPress={() => deleteItem(item.id)}> bought</Text>
-            </View>
-          }
-          data={shoppingList}
-          ItemSeparatorComponent={listSeparator}
-        />
+        <Header
+          centerComponent={{
+            text: 'SHOPPING LIST',
+            style: {color: '#FFF'}
+          }}
+          />
+        <Input
+          placeholder='Product'
+          label='PRODUCT'
+          onChangeText={(value) => setProduct(value)}
+          value={product}
+          />
+        <Input
+          placeholder='Amount'
+          label='AMOUNT'
+          onChangeText={(value) => setAmount(value)}
+          value={amount}
+          />
+        <Button
+          containerStyle={{ width: '45%' }}
+          onPress={saveItem}
+          icon={<Icon type='material' name='save' size={25} color='#FFF'/>}
+          title='SAVE'
+          />
+        <View style={{ flex: 1}}>
+          <FlatList
+            keyExtractor={(item) => item.id.toString()}
+            data={shoppingList}
+            renderItem={renderItem}
+            />
+        </View>
       </View>
     );
   }
