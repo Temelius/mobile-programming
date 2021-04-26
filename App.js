@@ -20,7 +20,11 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Film" component={FilmDetails} />
+          <Stack.Screen
+            name="Details"
+            component={FilmDetails}
+            options={({route}) => ({ title: route.params.name })}
+            />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
