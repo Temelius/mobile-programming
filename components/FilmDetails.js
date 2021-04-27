@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, View, Text,
           SafeAreaView, ScrollView, StatusBar} from 'react-native'
 
-import { List, ActivityIndicator, Title } from 'react-native-paper'
+import { Card, List, ActivityIndicator, Title, Paragraph, Divider } from 'react-native-paper'
 
 const FilmDetails = ({route, navigation}) => {
   const filmId = route.params.filmId;
@@ -24,6 +24,18 @@ const FilmDetails = ({route, navigation}) => {
     })
   }
 
+  const ListItemBoldAndNormal = ({bold, normal}) => {
+    return (
+      <List.Item title={
+        <Text style={styles.bold}>
+          {bold}
+          <Text style={styles.normal}>{normal}</Text>
+        </Text>
+      }
+      />
+    )
+  }
+
   if(isLoading) {
     return (
       <SafeAreaView style={styles.loadContainer}>
@@ -36,6 +48,53 @@ const FilmDetails = ({route, navigation}) => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <Title>{film.title}</Title>
+        <List.Section>
+          <List.Accordion
+            title="Alternative Titles" 
+            left={props => <List.Icon {...props} icon="translate"/> }>
+              <List.Item title={film.original_title} />
+              <List.Item title={film.original_title_romanised} />
+          </List.Accordion>
+        </List.Section>
+
+        <Card>
+          <Card.Title title="Description" />
+          <Card.Content>
+            <Paragraph>{film.description}</Paragraph>
+          </Card.Content>
+        </Card>
+
+        <Card>
+          <Card.Title title="Information" />
+          <Card.Content>
+            <List.Section>
+              <ListItemBoldAndNormal 
+                bold="Release Date: "
+                normal={film.release_date}
+              />
+              <Divider />
+              <ListItemBoldAndNormal 
+                bold="Running time: "
+                normal={`${film.running_time} min`}
+              />
+              <Divider />
+              <ListItemBoldAndNormal 
+                bold="Director: "
+                normal={film.director}
+              />
+              <Divider />
+              <ListItemBoldAndNormal 
+                bold="Producer: "
+                normal={film.producer}
+              />
+              <Divider />
+              <ListItemBoldAndNormal 
+                bold="Rotten Tomato: "
+                normal={film.rt_score}
+              />
+            </List.Section>
+          </Card.Content>
+        </Card>
       </ScrollView>
     </SafeAreaView>
   )
@@ -51,7 +110,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
+  bold: {
+    fontWeight: 'bold'
+  },
+  normal: {
+    fontWeight: 'normal'
+  } 
+
 });
 
 export default FilmDetails;
