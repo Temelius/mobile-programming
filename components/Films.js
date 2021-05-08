@@ -20,7 +20,7 @@ const Films = ({navigation}) => {
       .then(response => response.json())
       .then(data => {
         // sort movies by release_date ascending.
-        // vaihda returnissa paikkoja descendiin.
+        // switch places on return for descend mode.
         let sorted = data.sort(function(a, b) {return a.release_date - b.release_date})
         setFilms(sorted)
         setIsLoading(false)
