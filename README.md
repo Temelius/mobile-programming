@@ -1,5 +1,6 @@
 # Mobile programming course
 Courses final task
+https://expo.io/@temelius/projects/final-task
 
 ## Original idea of the app
 The idea was to create an app based on [Studio Ghibli API](https://ghibliapi.herokuapp.com/) and to be able to
