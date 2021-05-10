@@ -2,18 +2,33 @@ import React from 'react'
 import { StyleSheet, View, Text,
           SafeAreaView, ScrollView, StatusBar} from 'react-native'
 
-import { Card, List, ActivityIndicator, Title, Paragraph, Divider } from 'react-native-paper'
+import { Card, List, ActivityIndicator, Title, Paragraph, Divider, Button } from 'react-native-paper'
+
+import * as SQLite from 'expo-sqlite'
+const db = SQLite.openDatabase('ghibli.db')
 
 const FilmDetails = ({route, navigation}) => {
   const filmId = route.params.filmId;
 
   const [film, setFilm] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(true)
+  const [isAddedToList, setIsAddedToList] = React.useState()
 
   React.useEffect(() => {
     getFilmById()
+    
+    db.transaction(tx => {
+      tx.executeSql('SELECT * FROM films WHERE filmId = ?;', [film.id], (_, { rows }) => {
+        console.log(rows._array)
+        if (rows._array.length > 0) {
+          setIsAddedToList(true)
+          
+        }
+      })
+    })
   }, [])
 
+  // Get the film by id
   const url = `https://ghibliapi.herokuapp.com/films/${filmId}`
   const getFilmById = () => {
     fetch(url)
@@ -22,6 +37,42 @@ const FilmDetails = ({route, navigation}) => {
       setFilm(data)
       setIsLoading(false)
     })
+  }
+
+  const handleSave = () => {
+    let filmName = film.title
+    let filmId = film.id
+
+    db.transaction(tx => {
+        tx.executeSql('INSERT INTO films (filmId, film) VALUES (?, ?);', [filmId, filmName])
+    }, null, console.log('Lisäys onnistui')) 
+    setIsAddedToList(true)
+
+  }
+
+  const handleRemove = () => {
+    let filmId = film.id
+    db.transaction(tx => {
+      tx.executeSql('DELETE FROM films WHERE filmId = ?;', [filmId])
+    }, null, console.log('Poisto onnistui'))
+    setIsAddedToList(false)
+  }
+
+  const AddToListButton = () => {
+    if (isAddedToList) {
+      return (
+        <Button icon="playlist-remove" mode="contained" dark={true} style={styles.button}
+          onPress={handleRemove}>
+          Remove
+        </Button>
+      )
+    }
+    return (
+      <Button icon="playlist-plus" mode="contained" dark={true} style={styles.button}
+        onPress={handleSave}>
+        Add to List
+      </Button>
+    )
   }
 
   const ListItemBoldAndNormal = ({bold, normal}) => {
@@ -48,6 +99,10 @@ const FilmDetails = ({route, navigation}) => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <Title>{film.title}</Title>
+        <View style={styles.buttonContainer}>
+          <AddToListButton />
+        </View>
+
         <List.Section>
           <List.Accordion
             title="Alternative Titles" 
@@ -116,6 +171,13 @@ const styles = StyleSheet.create({
   },
   normal: {
     fontWeight: 'normal'
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  button: {
+    width: '40%'
   } 
 
 });

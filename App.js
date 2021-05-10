@@ -11,6 +11,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Home from './components/Home';
 import FilmDetails from './components/FilmDetails'
 
+import * as SQLite from 'expo-sqlite'
+
+const db = SQLite.openDatabase('ghibli.db')
+
 export default function App() {
 
   const Stack = createStackNavigator();
@@ -24,6 +28,13 @@ export default function App() {
       accent: '#f1c40f',
     },
   };
+
+  React.useEffect(() => {
+    db.transaction(tx => {
+        tx.executeSql(
+            'CREATE TABLE IF NOT EXISTS films (id integer primary key not null, filmId text, film text);')
+    })
+  }, [])
 
   return (
     <PaperProvider theme={theme}>
